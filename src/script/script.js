@@ -500,24 +500,18 @@ const getData =[
     "name": "Arlene Kassulke",
     "email": "Josiane_Smith@yahoo.com"
     }
-    ] // object in array;
-    //-------------------------------------------------------------------------------> title
-    let mainTitle = document.createElement('title'); // creating a title file
-    mainTitle.innerText="pagination"// innerText given pagination
-   // appending the mainTitle into head
-    // ------------------------------------------------------------------------------->
+    ] 
+    let mainTitle = document.createElement('title'); 
+    mainTitle.innerText="pagination"
     let mainDiv = document.createElement("div");
     document.body.append(mainDiv);
     mainDiv.classList.add("container");
-    //------------------------------------------------------------------------------->
+    
     let secondDiv = document.createElement("div");
     secondDiv.classList.add("mt-2")
     
     let thirdDiv = document.createElement("div");
     thirdDiv.classList.add("btn-group", "btn-group-toggle","mt-1","d-flex", "align-items-center", "justify-content-center");
-    
-    //---------------
-   
     mainDiv.append(secondDiv, thirdDiv);
     
     let itemsPerPage = 10;
