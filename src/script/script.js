@@ -501,89 +501,97 @@ const getData =[
     "email": "Josiane_Smith@yahoo.com"
     }
     ] 
-    let mainTitle = document.createElement('title'); 
-    mainTitle.innerText="pagination"
-    let mainDiv = document.createElement("div");
-    document.body.append(mainDiv);
-    mainDiv.classList.add("container");
-    
-    let secondDiv = document.createElement("div");
-    secondDiv.classList.add("mt-2")
-    
-    let thirdDiv = document.createElement("div");
-    thirdDiv.classList.add("btn-group", "btn-group-toggle","mt-1","d-flex", "align-items-center", "justify-content-center");
-    mainDiv.append(secondDiv, thirdDiv);
-    
-    let itemsPerPage = 10;
-    let currentPage = 1;
-    let totalPages = Math.ceil(getData.length / itemsPerPage);
-    
-    function generateTableRows() {
-      let getBody = document.querySelector("tbody");
-      
-      let startIndex = (currentPage - 1) * itemsPerPage;
-      let endIndex = startIndex + itemsPerPage;
-    
-      for (let i = startIndex; i < endIndex && i < getData.length; i++) {
-        
-        let getDataI = getData[i];
-        let row = document.createElement("tr");
-        row.innerHTML = `
-          <th scope="row">${getDataI.id}</th>
-          <td>${getDataI.name}</td>
-          <td>${getDataI.email}</td>`;
-        getBody.append(row);
-      }
-    }
-    
-    function generatePagination() {
-      let createInnerButton = `<nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link bg-dark text-white" href="#" aria-label="Previous" onclick="changePage(${currentPage - 1})">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>`;
-    
-      for (let i = 1; i <= totalPages; i++) {
-        createInnerButton += `<li class="page-item ${i === currentPage ? 'active' : ''}">
-            <a class="page-link bg-dark text-white" href="#" onclick="changePage(${i})">${i}</a>
-          </li>`;
-      }
-    
-      createInnerButton += `<li class="page-item">
-            <a class="page-link bg-dark text-white text-dark" href="#" aria-label="Next" onclick="changePage(${currentPage + 1})">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>`;
-    
-      thirdDiv.innerHTML = createInnerButton;
-    }
-    
-    function changePage(newPage) {
-      if (newPage >= 1 && newPage <= totalPages) {
-        currentPage = newPage;
-        generateTableRows();
-        generatePagination();
-      }
-    }
-    
-    secondDiv.innerHTML = `
-      <table class="table table-dark">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">NAME</th>
-            <th scope="col">EMAIL ADDRESS</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    `;
-    
+
+let mainTitle = document.createElement('title'); 
+mainTitle.innerText="pagination"
+document.head.appendChild(mainTitle);
+
+let mainDiv = document.createElement("div");
+document.body.append(mainDiv);
+mainDiv.classList.add("container");
+
+let secondDiv = document.createElement("div");
+secondDiv.classList.add("mt-2");
+
+let thirdDiv = document.createElement("div");
+thirdDiv.classList.add("btn-group", "btn-group-toggle", "mt-1", "d-flex", "align-items-center", "justify-content-center");
+mainDiv.append(secondDiv, thirdDiv);
+
+let itemsPerPage = 10;
+let currentPage = 1;
+let totalPages = Math.ceil(getData.length / itemsPerPage);
+
+function generateTableRows() {
+  let getBody = document.querySelector("tbody");
+
+  // Create tbody if not exists
+  if (!getBody) {
+    getBody = document.createElement("tbody");
+    document.querySelector("table").appendChild(getBody);
+  }
+
+  // Clear existing rows
+  getBody.innerHTML = "";
+
+  let startIndex = (currentPage - 1) * itemsPerPage;
+  let endIndex = startIndex + itemsPerPage;
+
+  for (let i = startIndex; i < endIndex && i < getData.length; i++) {
+    let getDataI = getData[i];
+    let row = document.createElement("tr");
+    row.innerHTML = `
+      <th scope="row">${getDataI.id}</th>
+      <td>${getDataI.name}</td>
+      <td>${getDataI.email}</td>`;
+    getBody.append(row);
+  }
+}
+
+function generatePagination() {
+  let createInnerButton = `<nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link bg-dark text-white" href="#" aria-label="Previous" onclick="changePage(${currentPage - 1})">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>`;
+
+  for (let i = 1; i <= totalPages; i++) {
+    createInnerButton += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+        <a class="page-link bg-dark text-white" href="#" onclick="changePage(${i})">${i}</a>
+      </li>`;
+  }
+
+  createInnerButton += `<li class="page-item">
+          <a class="page-link bg-dark text-white text-dark" href="#" aria-label="Next" onclick="changePage(${currentPage + 1})">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>`;
+
+  thirdDiv.innerHTML = createInnerButton;
+}
+
+function changePage(newPage) {
+  if (newPage >= 1 && newPage <= totalPages) {
+    currentPage = newPage;
     generateTableRows();
     generatePagination();
-    
+  }
+}
+
+secondDiv.innerHTML = `
+  <table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">NAME</th>
+        <th scope="col">EMAIL ADDRESS</th>
+      </tr>
+    </thead>
+  </table>
+`;
+
+generateTableRows();
+generatePagination();
